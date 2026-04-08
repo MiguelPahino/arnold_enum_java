@@ -101,4 +101,24 @@ public class ArnoldEnumTypeTest {
 			assertThat(planeta.name()).isIn((Object[])gigantesGaseosos);
 		}
 	}
+	
+	@Test
+	public void ArrayGigantesHelados() {
+
+		String[] gigantesHelados = new String[2];
+		int planetasIncluidos = 0;
+
+		byte index = 0;
+		for (int i = Planeta.URANUS.ordinal(); i <= Planeta.NEPTUNE.ordinal(); i++) {
+			gigantesHelados[index] = Planeta.values()[i].name();
+			planetasIncluidos += 1;
+			index += 1;
+		}
+		assertThat(planetasIncluidos).isEqualTo(2);
+		assertThat(planetas).doesNotContainNull();
+
+		for (Planeta planeta : Planeta.getGigantesHelados()) {
+			assertThat(planeta.name()).isIn((Object[])gigantesHelados);
+		}
+	}
 }
