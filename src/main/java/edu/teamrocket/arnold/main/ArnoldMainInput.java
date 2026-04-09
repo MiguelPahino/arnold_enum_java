@@ -1,5 +1,6 @@
 package edu.teamrocket.arnold.main;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 import edu.teamrocket.arnold.logica.Planeta;
@@ -10,31 +11,33 @@ public class ArnoldMainInput {
         
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Introduce tu peso (Por defecto 60.0): ");
+        System.out.println("Introduce tu peso: ");
         String pesoInput = scanner.nextLine(); 
-        double peso;
+        Optional<Double> peso = Optional.empty();
+        
         try {
-            peso = Double.parseDouble(pesoInput);
+            peso = Optional.of(Double.parseDouble(pesoInput));
         } catch (NumberFormatException e) {
-            peso = 60.0;
+            peso = Optional.of(60.0);
+            System.out.println("Peso no valido, se usará por defecto 60.0");
         }
 
         
         System.out.println("Introduce un planeta:");
         String inputPlaneta = scanner.nextLine().toUpperCase(); 
-        Planeta planeta; 
+        Optional<Planeta> planeta = Optional.empty(); 
 
         
         
         try {
-            planeta = Planeta.valueOf(inputPlaneta);
+            planeta = Optional.of(Planeta.valueOf(inputPlaneta));
         }
         catch (IllegalArgumentException e) { 
-            planeta = Planeta.EARTH;
+            planeta = Optional.of(Planeta.EARTH);
             System.out.println("Planeta no valido, se usará por defecto la Tierra");
         }
 
-        System.out.printf("Your weight on %s is %f N%n", planeta.name(), planeta.pesoSuperficie(peso));
+        planeta.ifPresent(p ->  System.out.printf("Your weight on %s is %f N%n", p.name(), p.pesoSuperficie()));
     
         scanner.close();
     }
